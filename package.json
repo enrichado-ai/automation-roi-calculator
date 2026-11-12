@@ -1,0 +1,10 @@
+{
+  "name": "automation-roi-calculator",
+  "version": "1.0.0",
+  "description": "See how much automating a task would save your business: yearly savings, payback period and ROI.",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test tests/roi.test.js"
+  }
+}

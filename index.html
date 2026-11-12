@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Automation ROI Calculator</title>
+  <meta name="description" content="Find out how much time and money automating a task would save your business: yearly savings, payback period and ROI in seconds.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">⚙️</span>
+      <div>
+        <h1>Automation ROI Calculator</h1>
+        <p class="tagline">How much would automating a task save your business? Find out in 30 seconds.</p>
+      </div>
+    </div>
+    <button type="button" class="btn" id="shareBtn">Copy share link</button>
+  </header>
+
+  <main class="layout">
+    <!-- ===== Inputs ===== -->
+    <form class="card inputs" id="inputs" autocomplete="off" novalidate>
+      <h2>Try an example</h2>
+      <div class="presets" id="presets"></div>
+
+      <h2>The task</h2>
+      <label class="field">What are you automating?
+        <input type="text" name="task" placeholder="e.g. Invoice data entry" maxlength="60">
+      </label>
+      <div class="grid-2">
+        <label class="field">Hours per week, per person
+          <input type="number" name="hoursPerWeek" min="0" step="0.5" inputmode="decimal">
+        </label>
+        <label class="field">People doing it
+          <input type="number" name="people" min="0" step="1" inputmode="numeric">
+        </label>
+        <label class="field">Hourly cost per person
+          <span class="input-prefix"><span>$</span><input type="number" name="hourlyCost" min="0" step="1" inputmode="decimal"></span>
+          <small>Wage plus taxes and benefits</small>
+        </label>
+        <label class="field">Share that gets automated
+          <span class="input-suffix"><input type="number" name="automationPct" min="0" max="100" step="5" inputmode="decimal"><span>%</span></span>
+          <small>Rarely 100%. 60–80% is typical</small>
+        </label>
+      </div>
+      <label class="field">Monthly cost of mistakes and rework <span class="optional">(optional)</span>
+        <span class="input-prefix"><span>$</span><input type="number" name="monthlyErrorCost" min="0" step="10" inputmode="decimal"></span>
+      </label>
+
+      <h2>The automation</h2>
+      <div class="grid-2">
+        <label class="field">One-time setup cost
+          <span class="input-prefix"><span>$</span><input type="number" name="setupCost" min="0" step="100" inputmode="decimal"></span>
+        </label>
+        <label class="field">Monthly tool cost
+          <span class="input-prefix"><span>$</span><input type="number" name="monthlyToolCost" min="0" step="10" inputmode="decimal"></span>
+        </label>
+      </div>
+      <p class="assumption">Assumes 48 working weeks a year.</p>
+    </form>
+
+    <!-- ===== Results ===== -->
+    <section class="results" aria-live="polite">
+      <div class="card hero">
+        <p class="hero-label" id="heroLabel">Automating this could save you</p>
+        <p class="hero-number" id="heroNumber">$0</p>
+        <p class="hero-sub" id="heroSub">per year, after tool costs</p>
+      </div>
+
+      <div class="tiles">
+        <div class="tile"><span class="tile-label">Hours freed per year</span><span class="tile-value" id="tHours"></span></div>
+        <div class="tile"><span class="tile-label">Payback period</span><span class="tile-value" id="tPayback"></span></div>
+        <div class="tile"><span class="tile-label">First-year ROI</span><span class="tile-value" id="tRoi"></span></div>
+        <div class="tile"><span class="tile-label">3-year net savings</span><span class="tile-value" id="tThree"></span></div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="chart-head">
+          <h2>Cumulative net savings over 3 years</h2>
+          <div class="view-toggle" role="tablist" aria-label="View">
+            <button type="button" role="tab" aria-selected="true" data-view="chart">Chart</button>
+            <button type="button" role="tab" aria-selected="false" data-view="table">Table</button>
+          </div>
+        </div>
+        <div class="chart-wrap" id="chartWrap">
+          <svg id="chart" role="img" aria-label="Cumulative net savings by month"></svg>
+          <div class="tooltip" id="tooltip" hidden></div>
+        </div>
+        <div id="tableWrap" hidden>
+          <table class="year-table">
+            <thead>
+              <tr><th>Year</th><th class="num">Savings</th><th class="num">Costs</th><th class="num">Net</th><th class="num">Running total</th></tr>
+            </thead>
+            <tbody id="yearRows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card cta" id="cta" hidden>
+        <div>
+          <p class="cta-title" id="ctaTitle"></p>
+          <p class="cta-text" id="ctaText"></p>
+        </div>
+        <a class="btn btn-primary" id="ctaLink" target="_blank" rel="noopener"></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Estimates only, based on the numbers you enter. Runs entirely in your browser.</footer>
+
+  <script src="roi.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
